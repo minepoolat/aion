@@ -239,6 +239,7 @@ public class AionHub {
         cbs.add(new ResBlocksBodiesHandler(syncLOG, syncMgr, p2pMgr));
         cbs.add(new BroadcastTxHandler(syncLOG, mempool, p2pMgr, inSyncOnlyMode));
         cbs.add(new BroadcastNewBlockHandler(syncLOG, propHandler, p2pMgr));
+        cbs.add(new ResBlocksBodiesHandler(syncLOG, syncMgr, p2pMgr)); // TxReceipt handler
         this.p2pMgr.register(cbs);
     }
 
