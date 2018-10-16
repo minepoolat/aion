@@ -156,6 +156,7 @@ public class LevelDB extends AbstractDB {
             }
 
             try {
+                LOG.warn("attempting to repair database {}", this.toString());
                 // attempt repair
                 JniDBFactory.factory.repair(f, options);
             } catch (Exception e2) {
@@ -170,8 +171,6 @@ public class LevelDB extends AbstractDB {
     }
 
     public void repair() {
-        LOG.debug("repairing database {}", this.toString());
-
         if (isOpen()) {
             this.close();
         }
@@ -180,6 +179,7 @@ public class LevelDB extends AbstractDB {
         Options options = setupLevelDbOptions();
 
         try {
+            LOG.warn("attempting to repair database {}", this.toString());
             // attempt repair
             JniDBFactory.factory.repair(f, options);
         } catch (Exception e2) {
