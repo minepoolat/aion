@@ -180,7 +180,7 @@ public class LevelDB extends AbstractDB {
         return isOpen();
     }
 
-    public void repair() {
+    private void repair() {
         if (isOpen()) {
             this.close();
         }
