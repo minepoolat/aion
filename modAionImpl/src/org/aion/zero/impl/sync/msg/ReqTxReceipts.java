@@ -49,7 +49,7 @@ public class ReqTxReceipts extends Msg {
     private static List<byte[]> decode(byte[] msgBytes) {
         Preconditions.checkNotNull(msgBytes, "Cannot decode null message bytes to ReqTxReceipts");
         Preconditions.checkArgument(msgBytes.length % TX_RECEIPT_LENGTH == 0,
-                "Invalid encoding of ReqTxReceipts; length must be a multiple of 32");
+                "Invalid encoding of ReqTxReceipts; length must be a multiple of 32, but was " + msgBytes.length);
 
         List<byte[]> blocksHashes = new LinkedList<>();
         ByteBuffer bb = ByteBuffer.wrap(msgBytes);

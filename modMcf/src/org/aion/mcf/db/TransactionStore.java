@@ -56,6 +56,7 @@ public class TransactionStore<TX extends AbstractTransaction, TXR extends Abstra
         lock.writeLock().lock();
 
         try {
+
             byte[] txHash = tx.getReceipt().getTransaction().getHash();
 
             List<INFO> existingInfos = null;

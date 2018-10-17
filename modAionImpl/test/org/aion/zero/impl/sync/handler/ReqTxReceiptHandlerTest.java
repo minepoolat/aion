@@ -1,7 +1,6 @@
 package org.aion.zero.impl.sync.handler;
 
 import org.aion.base.util.ByteUtil;
-import org.aion.mcf.core.IBlockchain;
 import org.aion.p2p.IP2pMgr;
 import org.aion.zero.impl.core.IAionBlockchain;
 import org.aion.zero.impl.sync.msg.ResTxReceipts;
@@ -10,7 +9,6 @@ import org.aion.zero.types.AionTxReceipt;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 
 import java.nio.ByteBuffer;
 
@@ -64,9 +62,9 @@ public class ReqTxReceiptHandlerTest {
         ArgumentCaptor<ResTxReceipts> receipts = ArgumentCaptor.forClass(ResTxReceipts.class);
         verify(p2pMgr).send(eq(id), eq(displayId), receipts.capture());
         ResTxReceipts receiptsSent = receipts.getValue();
-        assertThat(receiptsSent.getTxReceipts().size(), is(2));
-        assertThat(receiptsSent.getTxReceipts().contains(txr1), is(true));
-        assertThat(receiptsSent.getTxReceipts().contains(txr2), is(true));
+        assertThat(receiptsSent.getTxInfo().size(), is(2));
+        assertThat(receiptsSent.getTxInfo().contains(txr1), is(true));
+        assertThat(receiptsSent.getTxInfo().contains(txr2), is(true));
     }
 
     @Test

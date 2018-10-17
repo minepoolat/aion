@@ -8,7 +8,6 @@ import org.aion.p2p.Ctrl;
 import org.aion.p2p.Handler;
 import org.aion.p2p.Ver;
 import org.aion.zero.impl.sync.Act;
-import org.aion.zero.impl.sync.SyncMgr;
 import org.aion.zero.impl.sync.msg.ResTxReceipts;
 import org.aion.zero.impl.types.AionTxInfo;
 import org.aion.zero.types.AionTransaction;
@@ -46,8 +45,9 @@ public class ResTxReceiptHandler extends Handler {
             return;
         }
 
-        for(AionTxReceipt atr : resTxReceipts.getTxReceipts()) {
+        for(AionTxInfo atr : resTxReceipts.getTxInfo()) {
             txStore.putToBatch(atr);
         }
+        txStore.flushBatch();
     }
 }

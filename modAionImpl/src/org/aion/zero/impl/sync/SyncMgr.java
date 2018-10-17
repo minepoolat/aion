@@ -58,7 +58,7 @@ import org.apache.commons.collections4.map.LRUMap;
 import org.slf4j.Logger;
 
 /** @author chris */
-public final class SyncMgr {
+public class SyncMgr {
 
     // interval - show status
     private static final int INTERVAL_SHOW_STATUS = 10000;

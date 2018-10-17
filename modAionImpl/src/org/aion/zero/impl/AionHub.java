@@ -61,9 +61,11 @@ import org.aion.zero.impl.sync.handler.BroadcastTxHandler;
 import org.aion.zero.impl.sync.handler.ReqBlocksBodiesHandler;
 import org.aion.zero.impl.sync.handler.ReqBlocksHeadersHandler;
 import org.aion.zero.impl.sync.handler.ReqStatusHandler;
+import org.aion.zero.impl.sync.handler.ReqTxReceiptHandler;
 import org.aion.zero.impl.sync.handler.ResBlocksBodiesHandler;
 import org.aion.zero.impl.sync.handler.ResBlocksHeadersHandler;
 import org.aion.zero.impl.sync.handler.ResStatusHandler;
+import org.aion.zero.impl.sync.handler.ResTxReceiptHandler;
 import org.aion.zero.impl.tx.AionTransactionExecThread;
 import org.aion.zero.impl.types.AionBlock;
 import org.aion.zero.types.A0BlockHeader;
@@ -239,7 +241,8 @@ public class AionHub {
         cbs.add(new ResBlocksBodiesHandler(syncLOG, syncMgr, p2pMgr));
         cbs.add(new BroadcastTxHandler(syncLOG, mempool, p2pMgr, inSyncOnlyMode));
         cbs.add(new BroadcastNewBlockHandler(syncLOG, propHandler, p2pMgr));
-        cbs.add(new ResBlocksBodiesHandler(syncLOG, syncMgr, p2pMgr)); // TxReceipt handler
+        cbs.add(new ResTxReceiptHandler(repository.getTransactionStore()));
+        cbs.add(new ReqTxReceiptHandler(p2pMgr, blockchain));
         this.p2pMgr.register(cbs);
     }
 

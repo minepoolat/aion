@@ -12,7 +12,6 @@ import org.aion.zero.impl.sync.Act;
 import org.aion.zero.impl.sync.msg.ReqTxReceipts;
 import org.aion.zero.impl.sync.msg.ResTxReceipts;
 import org.aion.zero.impl.types.AionTxInfo;
-import org.aion.zero.types.AionTxReceipt;
 import org.slf4j.Logger;
 
 import java.util.LinkedList;
@@ -57,10 +56,10 @@ public class ReqTxReceiptHandler extends Handler {
             return;
         }
 
-        List<AionTxReceipt> receipts = new LinkedList<>();
+        List<AionTxInfo> receipts = new LinkedList<>();
         for(byte[] txHash : reqTxReceipts.getTxHashes()) {
             AionTxInfo txInfo = bc.getTransactionInfo(txHash);
-            receipts.add(txInfo.getReceipt());
+            receipts.add(txInfo);
         }
 
         this.p2pMgr.send(id, displayId, new ResTxReceipts(receipts));

@@ -1,6 +1,5 @@
 package org.aion.zero.impl.sync.msg;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import org.aion.p2p.Ctrl;
 import org.aion.p2p.Msg;
@@ -9,7 +8,7 @@ import org.aion.rlp.RLP;
 import org.aion.rlp.RLPElement;
 import org.aion.rlp.RLPList;
 import org.aion.zero.impl.sync.Act;
-import org.aion.zero.types.AionTxReceipt;
+import org.aion.zero.impl.types.AionTxInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,16 +17,16 @@ import java.util.List;
 
 /** Response for transaction receipts request */
 public class ResTxReceipts extends Msg {
-    private final List<AionTxReceipt> txReceipts;
+    private final List<AionTxInfo> txInfo;
 
     /**
      * Constructor
      *
-     * @param txReceipts list of transaction receipts
+     * @param txInfo list of transaction receipts
      */
-    public ResTxReceipts(List<AionTxReceipt> txReceipts) {
+    public ResTxReceipts(List<AionTxInfo> txInfo) {
         super(Ver.V0, Ctrl.SYNC, Act.RES_TX_RECEIPT_HEADERS);
-        this.txReceipts = new LinkedList<>(txReceipts);
+        this.txInfo = new LinkedList<>(txInfo);
     }
 
     /**
@@ -46,28 +45,28 @@ public class ResTxReceipts extends Msg {
      * @param msgBytes ReqTxReceipts message encoded by {@link #encode()}
      * @return list of transaction hashes of a ReqTxReceipts
      */
-    private static List<AionTxReceipt> decode(byte[] msgBytes) {
+    private static List<AionTxInfo> decode(byte[] msgBytes) {
         Preconditions.checkNotNull(msgBytes, "Cannot decode null message bytes to ResTxReceipts");
 
         RLPList list = (RLPList) RLP.decode2(msgBytes).get(0);
-        List<AionTxReceipt> receipts = new LinkedList<>();
+        List<AionTxInfo> infos = new LinkedList<>();
 
         for (RLPElement elem : list) {
             byte[] elemData = elem.getRLPData();
-            receipts.add(new AionTxReceipt(elemData));
+            infos.add(new AionTxInfo(elemData));
         }
-        return receipts;
+        return infos;
     }
 
     /** @return the list of transaction receipts */
-    public List<AionTxReceipt> getTxReceipts() {
-        return Collections.unmodifiableList(txReceipts);
+    public List<AionTxInfo> getTxInfo() {
+        return Collections.unmodifiableList(txInfo);
     }
 
     @Override
     public byte[] encode() {
         List<byte[]> receipts = new ArrayList<>();
-        for (AionTxReceipt txr : this.txReceipts) {
+        for (AionTxInfo txr : this.txInfo) {
             receipts.add(txr.getEncoded());
         }
         byte[][] bytesArray = receipts.toArray(new byte[receipts.size()][]);

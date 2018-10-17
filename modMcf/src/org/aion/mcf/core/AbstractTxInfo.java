@@ -22,6 +22,7 @@
  ******************************************************************************/
 package org.aion.mcf.core;
 
+import com.google.common.base.Objects;
 import org.aion.mcf.types.AbstractTransaction;
 import org.aion.mcf.types.AbstractTxReceipt;
 
@@ -57,4 +58,20 @@ public abstract class AbstractTxInfo<TXR extends AbstractTxReceipt<?>, TX extend
     abstract public int getIndex();
 
     abstract public boolean isPending();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AbstractTxInfo)) return false;
+        AbstractTxInfo<?, ?> that = (AbstractTxInfo<?, ?>) o;
+        return index == that.index &&
+                Objects.equal(receipt, that.receipt) &&
+                Objects.equal(blockHash, that.blockHash) &&
+                Objects.equal(parentBlockHash, that.parentBlockHash);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(receipt, blockHash, parentBlockHash, index);
+    }
 }
